@@ -44,10 +44,10 @@ import com.example.learnlingo.R
 import com.example.learnlingo.presentation.components.AvatarView
 import com.example.learnlingo.presentation.components.PrimaryButton
 import com.example.learnlingo.ui.theme.Manrope
-import com.example.learnlingo.ui.theme.Nunito
 import com.example.learnlingo.ui.theme.Primary
 import com.example.learnlingo.ui.theme.TextDark
 import kotlinx.coroutines.delay
+
 @Composable
 fun SetupExperienceScreen() {
     Column(

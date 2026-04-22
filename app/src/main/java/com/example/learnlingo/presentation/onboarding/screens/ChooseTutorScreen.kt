@@ -1,6 +1,5 @@
 package com.example.learnlingo.presentation.onboarding.screens
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,7 +22,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -38,7 +36,6 @@ import com.example.learnlingo.R
 import com.example.learnlingo.presentation.components.PrimaryButton
 import com.example.learnlingo.presentation.components.TopBarProgressChat
 import com.example.learnlingo.ui.theme.Primary
-import com.example.learnlingo.ui.theme.SelectedItem
 
 @Composable
 fun ChooseTutorScreen(

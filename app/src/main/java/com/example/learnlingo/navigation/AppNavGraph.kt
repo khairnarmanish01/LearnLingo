@@ -9,16 +9,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.learnlingo.presentation.onboarding.screens.AgeSelectionScreen
 import com.example.learnlingo.presentation.onboarding.screens.AvatarSelectionScreen
+import com.example.learnlingo.presentation.onboarding.screens.ChooseTopicScreen
+import com.example.learnlingo.presentation.onboarding.screens.ChooseTutorScreen
 import com.example.learnlingo.presentation.onboarding.screens.LanguagePreferenceScreen
 import com.example.learnlingo.presentation.onboarding.screens.LevelSelectionScreen
 import com.example.learnlingo.presentation.onboarding.screens.MotivationSelectionScreen
-import com.example.learnlingo.presentation.onboarding.screens.TimeSelectionScreen
-import com.example.learnlingo.presentation.onboarding.screens.ChooseTopicScreen
-import com.example.learnlingo.presentation.onboarding.screens.ChooseTutorScreen
-import com.example.learnlingo.presentation.onboarding.screens.SkillsToFocusScreen
-import com.example.learnlingo.presentation.onboarding.screens.StartTimeSetupScreen
 import com.example.learnlingo.presentation.onboarding.screens.NameInputScreen
 import com.example.learnlingo.presentation.onboarding.screens.OnBoardingScreen
+import com.example.learnlingo.presentation.onboarding.screens.SkillsToFocusScreen
+import com.example.learnlingo.presentation.onboarding.screens.StartTimeSetupScreen
+import com.example.learnlingo.presentation.onboarding.screens.TimeSelectionScreen
 import com.example.learnlingo.presentation.onboarding.viewModel.OnboardingViewModel
 import com.example.learnlingo.presentation.setup.SetupExperienceScreen
 

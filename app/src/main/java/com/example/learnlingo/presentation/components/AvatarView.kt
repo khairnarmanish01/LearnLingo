@@ -1,6 +1,6 @@
 package com.example.learnlingo.presentation.components
 
-import android.net.Uri
+import android.view.TextureView
 import androidx.annotation.OptIn
 import androidx.annotation.RawRes
 import androidx.compose.foundation.background
@@ -20,13 +20,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.net.toUri
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
-import androidx.core.net.toUri
 import com.example.learnlingo.R
 
 @Composable
@@ -36,13 +39,11 @@ fun AvatarView(size: Dp, borderSize: Dp) {
             .size(size)
             .clip(CircleShape)
             .border(
-                width = borderSize,
-                brush = Brush.linearGradient(
+                width = borderSize, brush = Brush.linearGradient(
                     colors = listOf(
                         Color(0xFF4761F0), Color(0xFFD2CCFF), Color(0xFFCF8CFF)
                     )
-                ),
-                shape = CircleShape
+                ), shape = CircleShape
             )
             .clip(CircleShape)
             .padding(borderSize)
@@ -67,46 +68,44 @@ fun AvatarView(size: Dp, borderSize: Dp) {
 @OptIn(UnstableApi::class)
 @Composable
 fun LoopingVideoPlayer(
-    @RawRes videoResId: Int,
-    modifier: Modifier = Modifier
+    @RawRes videoResId: Int, modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
 
-    // Initialize ExoPlayer
     val exoPlayer = remember {
         ExoPlayer.Builder(context).build().apply {
             val uri = "android.resource://${context.packageName}/$videoResId".toUri()
             setMediaItem(MediaItem.fromUri(uri))
-
-            // Loop infinitely and autoplay
             repeatMode = Player.REPEAT_MODE_ALL
             playWhenReady = true
-
             prepare()
         }
     }
 
-    // Release the player when this Composable is removed from the UI tree
-    DisposableEffect(Unit) {
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_START -> exoPlayer.playWhenReady = true
+                Lifecycle.Event.ON_STOP -> exoPlayer.playWhenReady = false
+                else -> Unit
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+
         onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
             exoPlayer.release()
         }
     }
 
-    // Embed the classic Android View inside Compose
-    AndroidView(
-        modifier = modifier,
-        factory = { ctx ->
-            PlayerView(ctx).apply {
-                player = exoPlayer
-                useController = false // Hides play/pause/timeline controls
-
-                // This acts exactly like ContentScale.Crop for video
-                resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
-
-                // Optional: Prevents a black flash before the video starts
-                setBackgroundColor(android.graphics.Color.TRANSPARENT)
-            }
+    AndroidView(modifier = modifier, factory = { ctx ->
+        PlayerView(ctx).apply {
+            player = exoPlayer
+            useController = false
+            resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+            (videoSurfaceView as? TextureView)
         }
-    )
+    }, update = { view ->
+    })
 }
