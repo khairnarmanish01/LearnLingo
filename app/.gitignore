@@ -1,1 +1,5 @@
 /build
+/build.gradle.kts
+/local.properties
+/.idea
+*.iml
